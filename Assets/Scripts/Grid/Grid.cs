@@ -8,8 +8,21 @@ public class Grid : MonoBehaviour
    [SerializeField] private GameObject TileMap;
    private List<GridTileVisual> tiles = new List<GridTileVisual>();
 
+   private static Grid instance;
+
+   public static Grid Instance => instance;
+
    private void Awake()
    {
+      if (instance == null)
+      {
+         instance = this;
+      }
+      else
+      {
+         Destroy(gameObject);
+      }
+      
       foreach (var tileObj in TileMap.GetComponentsInChildren<GridTileVisual>())
       {
          tiles.Add(tileObj);
