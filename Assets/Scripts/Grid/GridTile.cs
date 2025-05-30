@@ -9,8 +9,8 @@ public enum eGridType
 
 public class GridTile
 {
-    private Vector2 _position;
-    public Vector2 Position => _position;
+    private Vector2Int _position;
+    public Vector2Int Position => _position;
 
     public eGridType Type => _type;
 

@@ -2,26 +2,23 @@ using UnityEngine;
 
 public class GridObjectVisual : MonoBehaviour
 {
-    private GridObject _gridObject = new GridObject();
+    [SerializeField] private float moveSpeed = 10f;
+    
+    private GridObject _gridObject;
+
+    public GridObject GridObject => _gridObject;
+
     private SpriteRenderer _sprite;
 
     private void Awake()
     {
         _sprite = GetComponent<SpriteRenderer>();
+        _gridObject = new GridObject(Grid.Instance.GetTileAt((int)transform.position.x, (int)transform.position.y));
     }
 
-    private void Start()
+    public void UpdatePosition()
     {
-        SetGridTile(_gridObject.GridTile);
-    }
-
-    public void SetGridTile(GridTile newGridTile)
-    {
-        if (newGridTile == null) return;
-        if (newGridTile.Type == eGridType.Wall) { Debug.Log("Muro"); return;}
-        
-        _gridObject.GridTile = newGridTile;
-        transform.position = _gridObject.GridTile.Position;
+        transform.position = Vector2.Lerp(transform.position, _gridObject.GridTile.Position, Time.deltaTime * moveSpeed);
     }
 
     public GridTile GetGridTile()

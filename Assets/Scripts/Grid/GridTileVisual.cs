@@ -2,25 +2,16 @@ using UnityEngine;
 
 public class GridTileVisual : MonoBehaviour
 {
-    private GridTile tile;
+    private GridTile _tile;
+    
     [SerializeField] private eGridType _gridType;
-    public GridTile Tile
-    {
-        get => tile;
-        set => tile = value;
-    }
+    public GridTile Tile => _tile;
 
     private SpriteRenderer _sprite;
 
     private void Awake()
     {
         _sprite = GetComponent<SpriteRenderer>();
-
-        tile = new GridTile((int)transform.position.x, (int)transform.position.y, _gridType);
-    }
-
-    private void Start()
-    {
-    
+        _tile = new GridTile((int)transform.position.x, (int)transform.position.y, _gridType);
     }
 }

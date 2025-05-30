@@ -33,7 +33,7 @@ public class Grid : MonoBehaviour
    {
       foreach (var tileVisual in tiles)
       {
-         if ((int)tileVisual.Tile.Position.y == y && (int)tileVisual.Tile.Position.x == x)
+         if (tileVisual.Tile.Position.y == y && tileVisual.Tile.Position.x == x)
          {
             return tileVisual.Tile;
          }
