@@ -1,16 +1,25 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Test : MonoBehaviour
 {
     [SerializeField] Grid grid;
     
-    [SerializeField] private GridObjectVisual playerPrefab;
-    private GridObjectVisual player;
+    [SerializeField] private GridObject playerPrefab;
+    private GridObject player;
     [SerializeField] private Vector2Int playerStartPos;
     
     private void Start()
     {
         player = Instantiate(playerPrefab, (Vector2)grid.GetTileAt(playerStartPos.x,playerStartPos.y).Position, Quaternion.identity);
-        player.GridObject.SetGridTile(grid.GetTileAt(playerStartPos.x,playerStartPos.y));
+        player.SetGridTile(grid.GetTileAt(playerStartPos.x,playerStartPos.y));
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }

@@ -1,21 +1,29 @@
+using System;
 using UnityEngine;
 
-public class GridObject
+public enum eGridObjectType
 {
-    private GridTile _gridTile;
+    None,
+    Player,
+    Enemy,
+    Food,
+    Heal
+}
+
+public class GridObject : MonoBehaviour
+{
+    [SerializeField] private eGridObjectType _type;
+    public eGridObjectType Type => _type;
+
+    protected GridTile _gridTile;
     public GridTile GridTile => _gridTile;
 
-    public GridObject(GridTile gridTile)
-    {
-        _gridTile = gridTile;
-    }
-    
     public void SetGridTile(GridTile newGridTile)
     {
         _gridTile = newGridTile;
     }
 
-    public bool CanMove(GridTile newGridTile)
+    protected bool CanMove(GridTile newGridTile)
     {
         if (newGridTile == null) return false;
         if (newGridTile == _gridTile) return false;

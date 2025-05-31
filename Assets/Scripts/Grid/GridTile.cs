@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum eGridType
@@ -7,19 +8,36 @@ public enum eGridType
     Door
 }
 
-public class GridTile
+public class GridTile : MonoBehaviour
 {
     private Vector2Int _position;
     public Vector2Int Position => _position;
 
+    [SerializeField] private eGridType _type;
+
     public eGridType Type => _type;
 
-    private eGridType _type;
+    public GridObject _gridObject = null;
+    public GridObject GridObject => _gridObject;
 
-    public GridTile(int x, int y, eGridType type)
+    private void Awake()
     {
-        _position.x = x;
-        _position.y = y;
-        _type = type;
+        _position.x = (int)transform.position.x;
+        _position.y = (int)transform.position.y;
+    }
+
+    public void RemoveGridObject()
+    {
+        _gridObject = null;
+    }
+    
+    public void SetGridObject(GridObject newGridObject)
+    {
+        _gridObject = newGridObject;
+    }
+
+    public bool HasObject()
+    {
+        return _gridObject != null;
     }
 }

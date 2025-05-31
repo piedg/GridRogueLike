@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5581529258282904427, guid: ec6f391f90081d3428b94e2e230b9f67, type: 3}
+      propertyPath: _type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1287237504506325200, guid: ec6f391f90081d3428b94e2e230b9f67, type: 3}
       propertyPath: m_Sprite
       value: 

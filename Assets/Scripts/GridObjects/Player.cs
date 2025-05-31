@@ -1,11 +1,10 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class PlayerController : MonoBehaviour
+public class Player : GridObject, IMoveable
 {
-    private GridObjectVisual _gridObjectVisual;
-
+    [SerializeField] private float moveSpeed;
     private Stat _health;
     private Stat _hungry;
 
@@ -14,10 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _gridObjectVisual = GetComponent<GridObjectVisual>();
-
-        _health = new Stat(10, eStatType.Health);
-        _hungry = new Stat(10, eStatType.Hungry);
+        _health = new Stat(5, eStatType.Health);
+        _hungry = new Stat(5, eStatType.Hungry);
     }
 
     private void Start()
@@ -28,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _moveTimer += Time.deltaTime;
-        _gridObjectVisual.UpdatePosition();
+        UpdatePosition();
 
         if (_health.IsDead())
         {
@@ -54,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveAction()
     {
-        Vector2Int currentPosition = _gridObjectVisual.GetGridTile().Position;
+        Vector2Int currentPosition = GridTile.Position;
         int newX = currentPosition.x;
         int newY = currentPosition.y;
 
@@ -76,9 +73,15 @@ public class PlayerController : MonoBehaviour
         }
 
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
-        if (_gridObjectVisual.GridObject.CanMove(newGridTile))
+        if (CanMove(newGridTile))
         {
-            _gridObjectVisual.GridObject.SetGridTile(newGridTile);
+            if (newGridTile.HasObject())
+            {
+                UseItem(newGridTile);
+            }
+            
+            Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
+            Grid.Instance.SetGridObjectToTile(this, newGridTile);
             _moveTimer = 0f;
             PerformMove();
         }
@@ -93,6 +96,42 @@ public class PlayerController : MonoBehaviour
         else
         {
             _hungry.RemoveValue(1);
+        }
+    }
+
+    public Stat GetHungryStat()
+    {
+        return _hungry;
+    }
+    
+    public Stat GetHealthStat()
+    {
+        return _health;
+    }
+
+    public void UpdatePosition()
+    {
+        transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
+    }
+
+    private void UseItem(GridTile gridTile)
+    {
+        switch (gridTile.GridObject.Type)
+        {
+            case eGridObjectType.Food:
+                Food foodObj = gridTile.GridObject.GetComponent<IConsumable>() as Food;
+                if (foodObj != null)
+                {
+                    foodObj.Use(this);
+                }
+                break;
+            case eGridObjectType.Heal:
+                Heal healObj = gridTile.GridObject.GetComponent<IConsumable>() as Heal;
+                if (healObj != null)
+                {
+                    healObj.Use(this);
+                }
+                break;
         }
     }
 
