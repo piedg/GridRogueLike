@@ -75,9 +75,14 @@ public class Player : GridObject, IMoveable
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
         if (CanMove(newGridTile))
         {
+            Food foodObj = newGridTile.GridObject as Food;
+            if (foodObj != null)
+            {
+                foodObj.Use(this);
+            }
+            
             Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
             Grid.Instance.SetGridObjectToTile(this, newGridTile);
-
             _moveTimer = 0f;
             PerformMove();
         }
@@ -93,6 +98,11 @@ public class Player : GridObject, IMoveable
         {
             _hungry.RemoveValue(1);
         }
+    }
+
+    public Stat GetHungryStat()
+    {
+        return _hungry;
     }
 
     public void UpdatePosition()

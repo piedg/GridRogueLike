@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IConsumable
 {
-   public void Use();
+   public void Use(Player player);
 }

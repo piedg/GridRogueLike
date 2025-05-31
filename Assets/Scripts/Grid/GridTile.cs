@@ -17,7 +17,7 @@ public class GridTile : MonoBehaviour
 
     public eGridType Type => _type;
 
-    private GridObject _gridObject = null;
+    public GridObject _gridObject = null;
     public GridObject GridObject => _gridObject;
 
     private void Awake()
