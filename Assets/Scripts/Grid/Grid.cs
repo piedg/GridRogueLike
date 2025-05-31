@@ -41,4 +41,15 @@ public class Grid : MonoBehaviour
       Debug.Log($"Tile {x + ", " + y} not found");
       return null;
    }
+
+   public void SetObjectToTile(GridObject gridObject, GridTile gridTile)
+   {
+      gridObject.SetGridTile(gridTile);
+      gridTile.SetGridObject(gridObject);
+   }
+
+   public void RemoveObjectFromTile(GridTile gridTile)
+   {
+      gridTile.RemoveGridObject();
+   }
 }

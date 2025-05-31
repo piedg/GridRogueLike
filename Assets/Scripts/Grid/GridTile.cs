@@ -7,6 +7,7 @@ public enum eGridType
     Door
 }
 
+[System.Serializable]
 public class GridTile
 {
     private Vector2Int _position;
@@ -16,10 +17,23 @@ public class GridTile
 
     private eGridType _type;
 
-    public GridTile(int x, int y, eGridType type)
+    private GridObject _gridObject;
+
+    public GridTile(int x, int y, eGridType type, GridObject gridObject = null)
     {
         _position.x = x;
         _position.y = y;
         _type = type;
+        _gridObject = gridObject;
+    }
+
+    public void SetGridObject(GridObject gridObject)
+    {
+        _gridObject = gridObject;
+    }
+
+    public void RemoveGridObject()
+    {
+        _gridObject = null;
     }
 }

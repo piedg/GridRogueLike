@@ -78,7 +78,8 @@ public class PlayerController : MonoBehaviour
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
         if (_gridObjectVisual.GridObject.CanMove(newGridTile))
         {
-            _gridObjectVisual.GridObject.SetGridTile(newGridTile);
+            Grid.Instance.RemoveObjectFromTile(Grid.Instance.GetTileAt(currentPosition.x, currentPosition.y));
+            Grid.Instance.SetObjectToTile(_gridObjectVisual.GridObject, newGridTile);
             _moveTimer = 0f;
             PerformMove();
         }
