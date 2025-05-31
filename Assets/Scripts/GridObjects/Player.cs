@@ -5,10 +5,11 @@ using UnityEngine;
 public class Player : GridObject, IMoveable
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField] float actionDelay = 0.25f;
+    
     private Stat _health;
     private Stat _hungry;
 
-    [SerializeField] float actionDelay = 0.25f;
     private float _moveTimer;
 
     private void Awake()
@@ -37,21 +38,11 @@ public class Player : GridObject, IMoveable
         {
             MoveAction();
         }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            _hungry.AddValue(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            _health.AddValue(1);
-        }
     }
 
     private void MoveAction()
     {
-        Vector2Int currentPosition = GridTile.Position;
+        Vector2Int currentPosition = _gridTile.Position;
         int newX = currentPosition.x;
         int newY = currentPosition.y;
 
@@ -77,13 +68,14 @@ public class Player : GridObject, IMoveable
         {
             if (newGridTile.HasObject())
             {
-                UseItem(newGridTile);
+                PerformAction(newGridTile);
             }
             
             Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
             Grid.Instance.SetGridObjectToTile(this, newGridTile);
-            _moveTimer = 0f;
+
             PerformMove();
+            _moveTimer = 0f;
         }
     }
 
@@ -114,7 +106,7 @@ public class Player : GridObject, IMoveable
         transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
     }
 
-    private void UseItem(GridTile gridTile)
+    private void PerformAction(GridTile gridTile)
     {
         switch (gridTile.GridObject.Type)
         {
