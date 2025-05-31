@@ -1,11 +1,10 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class PlayerController : MonoBehaviour
+public class Player : GridObject, IMoveable
 {
-    private GridObject _gridObject;
-
+    [SerializeField] private float moveSpeed;
     private Stat _health;
     private Stat _hungry;
 
@@ -14,8 +13,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _gridObject = GetComponent<GridObject>();
-
         _health = new Stat(10, eStatType.Health);
         _hungry = new Stat(10, eStatType.Hungry);
     }
@@ -28,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _moveTimer += Time.deltaTime;
-        _gridObject.UpdatePosition();
+        UpdatePosition();
 
         if (_health.IsDead())
         {
@@ -54,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveAction()
     {
-        Vector2Int currentPosition = _gridObject.GridTile.Position;
+        Vector2Int currentPosition = GridTile.Position;
         int newX = currentPosition.x;
         int newY = currentPosition.y;
 
@@ -76,11 +73,11 @@ public class PlayerController : MonoBehaviour
         }
 
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
-        if (_gridObject.CanMove(newGridTile))
+        if (CanMove(newGridTile))
         {
             Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
-            Grid.Instance.SetGridObjectToTile(_gridObject, newGridTile);
-            
+            Grid.Instance.SetGridObjectToTile(this, newGridTile);
+
             _moveTimer = 0f;
             PerformMove();
         }
@@ -96,6 +93,11 @@ public class PlayerController : MonoBehaviour
         {
             _hungry.RemoveValue(1);
         }
+    }
+
+    public void UpdatePosition()
+    {
+        transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
     }
 
     private void Die()

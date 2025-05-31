@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class GridObject : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
-    
-    private GridTile _gridTile;
+    protected GridTile _gridTile;
     public GridTile GridTile => _gridTile;
 
     public void SetGridTile(GridTile newGridTile)
@@ -12,7 +10,7 @@ public class GridObject : MonoBehaviour
         _gridTile = newGridTile;
     }
 
-    public bool CanMove(GridTile newGridTile)
+    protected bool CanMove(GridTile newGridTile)
     {
         if (newGridTile == null) return false;
         if (newGridTile == _gridTile) return false;
@@ -21,9 +19,5 @@ public class GridObject : MonoBehaviour
         return true;
     }
     
-    public void UpdatePosition()
-    {
-        transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
-        _gridTile.SetGridObject(this);
-    }
+  
 }
