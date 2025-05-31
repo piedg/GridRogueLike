@@ -6,7 +6,7 @@ public class Heal : GridObject, IConsumable
 
     public void Use(Player player)
     {
-        player.GetHealthStat().AddValue(valueAmount);
+        player.GetHealthStat().AddValue(valueAmount + 1); // 1 is tollerance for movement
         Destroy(gameObject);
     }
 }
