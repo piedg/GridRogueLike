@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    private GridObjectVisual _gridObjectVisual;
+    private GridObject _gridObject;
 
     private Stat _health;
     private Stat _hungry;
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _gridObjectVisual = GetComponent<GridObjectVisual>();
+        _gridObject = GetComponent<GridObject>();
 
         _health = new Stat(10, eStatType.Health);
         _hungry = new Stat(10, eStatType.Hungry);
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _moveTimer += Time.deltaTime;
-        _gridObjectVisual.UpdatePosition();
+        _gridObject.UpdatePosition();
 
         if (_health.IsDead())
         {
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveAction()
     {
-        Vector2Int currentPosition = _gridObjectVisual.GetGridTile().Position;
+        Vector2Int currentPosition = _gridObject.GridTile.Position;
         int newX = currentPosition.x;
         int newY = currentPosition.y;
 
@@ -76,9 +76,11 @@ public class PlayerController : MonoBehaviour
         }
 
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
-        if (_gridObjectVisual.GridObject.CanMove(newGridTile))
+        if (_gridObject.CanMove(newGridTile))
         {
-            _gridObjectVisual.GridObject.SetGridTile(newGridTile);
+            Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
+            Grid.Instance.SetGridObjectToTile(_gridObject, newGridTile);
+            
             _moveTimer = 0f;
             PerformMove();
         }

@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1381207647}
-  playerPrefab: {fileID: 2893470290138473609, guid: 1b65c4b8b3191fd4ab311d7d68f500c0, type: 3}
+  playerPrefab: {fileID: 4837398522189313138, guid: 1b65c4b8b3191fd4ab311d7d68f500c0, type: 3}
   playerStartPos: {x: 0, y: -1}
 --- !u!1001 &379233079
 PrefabInstance:

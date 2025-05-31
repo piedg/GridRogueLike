@@ -1,15 +1,12 @@
 using UnityEngine;
 
-public class GridObject
+public class GridObject : MonoBehaviour
 {
+    [SerializeField] private float moveSpeed;
+    
     private GridTile _gridTile;
     public GridTile GridTile => _gridTile;
 
-    public GridObject(GridTile gridTile)
-    {
-        _gridTile = gridTile;
-    }
-    
     public void SetGridTile(GridTile newGridTile)
     {
         _gridTile = newGridTile;
@@ -22,5 +19,11 @@ public class GridObject
         if (newGridTile.Type == eGridType.Wall) { Debug.Log("Wall"); return false; }
 
         return true;
+    }
+    
+    public void UpdatePosition()
+    {
+        transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
+        _gridTile.SetGridObject(this);
     }
 }
