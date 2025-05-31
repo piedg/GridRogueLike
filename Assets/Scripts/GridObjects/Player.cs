@@ -103,6 +103,11 @@ public class Player : GridObject, IMoveable
     {
         return _hungry;
     }
+    
+    public Stat GetHealthStat()
+    {
+        return _health;
+    }
 
     public void UpdatePosition()
     {
@@ -118,6 +123,13 @@ public class Player : GridObject, IMoveable
                 if (foodObj != null)
                 {
                     foodObj.Use(this);
+                }
+                break;
+            case eGridObjectType.Heal:
+                Heal healObj = gridTile.GridObject.GetComponent<IConsumable>() as Heal;
+                if (healObj != null)
+                {
+                    healObj.Use(this);
                 }
                 break;
         }

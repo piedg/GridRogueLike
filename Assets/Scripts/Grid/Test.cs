@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Test : MonoBehaviour
 {
@@ -12,5 +13,13 @@ public class Test : MonoBehaviour
     {
         player = Instantiate(playerPrefab, (Vector2)grid.GetTileAt(playerStartPos.x,playerStartPos.y).Position, Quaternion.identity);
         player.SetGridTile(grid.GetTileAt(playerStartPos.x,playerStartPos.y));
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }

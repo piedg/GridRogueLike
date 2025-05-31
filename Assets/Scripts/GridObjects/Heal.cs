@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Food : GridObject, IConsumable
+public class Heal : GridObject, IConsumable
 {
     [SerializeField] private int valueAmount;
-    
+
     public void Use(Player player)
     {
-        player.GetHungryStat().AddValue(valueAmount);
+        player.GetHealthStat().AddValue(valueAmount);
         Destroy(gameObject);
     }
 }
