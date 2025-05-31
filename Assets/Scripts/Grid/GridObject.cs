@@ -1,7 +1,19 @@
 using UnityEngine;
 
+public enum eGridObjectType
+{
+    None,
+    Player,
+    Enemy,
+    Food,
+    Heal
+}
+
 public class GridObject : MonoBehaviour
 {
+    [SerializeField] private eGridObjectType _type;
+    public eGridObjectType Type => _type;
+
     protected GridTile _gridTile;
     public GridTile GridTile => _gridTile;
 
@@ -18,6 +30,4 @@ public class GridObject : MonoBehaviour
 
         return true;
     }
-    
-  
 }

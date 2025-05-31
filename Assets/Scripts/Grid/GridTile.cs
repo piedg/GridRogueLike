@@ -35,4 +35,9 @@ public class GridTile : MonoBehaviour
     {
         _gridObject = newGridObject;
     }
+
+    public bool HasObject()
+    {
+        return _gridObject != null;
+    }
 }

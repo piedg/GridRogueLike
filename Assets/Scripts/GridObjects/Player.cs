@@ -13,8 +13,8 @@ public class Player : GridObject, IMoveable
 
     private void Awake()
     {
-        _health = new Stat(10, eStatType.Health);
-        _hungry = new Stat(10, eStatType.Hungry);
+        _health = new Stat(5, eStatType.Health);
+        _hungry = new Stat(5, eStatType.Hungry);
     }
 
     private void Start()
@@ -75,10 +75,9 @@ public class Player : GridObject, IMoveable
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
         if (CanMove(newGridTile))
         {
-            Food foodObj = newGridTile.GridObject as Food;
-            if (foodObj != null)
+            if (newGridTile.HasObject())
             {
-                foodObj.Use(this);
+                UseItem(newGridTile);
             }
             
             Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
@@ -108,6 +107,20 @@ public class Player : GridObject, IMoveable
     public void UpdatePosition()
     {
         transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
+    }
+
+    private void UseItem(GridTile gridTile)
+    {
+        switch (gridTile.GridObject.Type)
+        {
+            case eGridObjectType.Food:
+                Food foodObj = gridTile.GridObject.GetComponent<IConsumable>() as Food;
+                if (foodObj != null)
+                {
+                    foodObj.Use(this);
+                }
+                break;
+        }
     }
 
     private void Die()
