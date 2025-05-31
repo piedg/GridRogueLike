@@ -27,13 +27,11 @@ public class Stat
     public void AddValue(int amount)
     {
         _currentValue = math.clamp(_currentValue + amount, _currentValue, _maxValue);
-        Debug.Log("Added value: " + _currentValue + " on " + _statType);
     }
 
     public void RemoveValue(int amount)
     {
         _currentValue = math.clamp(_currentValue - amount, 0, _maxValue);
-        Debug.Log("Removed value: " + _currentValue + " on " + _statType);
     }
 
     public bool IsStarving()

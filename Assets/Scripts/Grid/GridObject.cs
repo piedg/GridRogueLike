@@ -16,7 +16,6 @@ public class GridObject : MonoBehaviour
     public eGridObjectType Type => _type;
 
     protected GridTile _gridTile;
-    public GridTile GridTile => _gridTile;
 
     public void SetGridTile(GridTile newGridTile)
     {
