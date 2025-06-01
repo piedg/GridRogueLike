@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : GridObject, IMoveable
@@ -26,13 +24,13 @@ public class Player : GridObject, IMoveable
     private void Update()
     {
         _moveTimer += Time.deltaTime;
-        UpdatePosition();
-
         if (_health.IsDead())
         {
             Die();
             return;
         }
+        
+        UpdatePosition();
 
         if (_moveTimer >= actionDelay)
         {
@@ -67,17 +65,28 @@ public class Player : GridObject, IMoveable
         if (CanMove(newGridTile))
         {
             PerformMove();
-            
-            if (newGridTile.HasObject())
+            if (newGridTile.IsTeleport())
+            {
+                Teleport teleportTile = newGridTile as Teleport;
+                if (teleportTile)
+                {
+                    teleportTile.Use(this);
+                }
+            }
+            else
             {
                 PerformAction(newGridTile);
+                MoveToNewTile(_gridTile, newGridTile);
             }
-            
-            Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
-            Grid.Instance.SetGridObjectToTile(this, newGridTile);
             
             _moveTimer = 0f;
         }
+    }
+
+    private void MoveToNewTile(GridTile currentTile, GridTile newGridTile)
+    {
+        Grid.Instance.RemoveGridObjectFromTile(currentTile);
+        Grid.Instance.SetObjectToTile(this, newGridTile);
     }
 
     private void PerformMove()
@@ -109,6 +118,8 @@ public class Player : GridObject, IMoveable
 
     private void PerformAction(GridTile gridTile)
     {
+        if (!gridTile.HasObject()) return;
+        
         switch (gridTile.GridObject.Type)
         {
             case eGridObjectType.Food:
