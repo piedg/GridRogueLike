@@ -66,18 +66,29 @@ public class Player : GridObject, IMoveable
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
         if (CanMove(newGridTile))
         {
-            PerformMove();
-            
-            if (newGridTile.HasObject())
+            if (newGridTile.IsTeleport())
             {
-                PerformAction(newGridTile);
+                Teleport teleportTile = newGridTile as Teleport;
+                if (teleportTile)
+                {
+                    teleportTile.Use(this);
+                }
             }
-            
-            Grid.Instance.RemoveGridObjectFromTile(Grid.Instance.GetTileAt(currentPosition));
-            Grid.Instance.SetGridObjectToTile(this, newGridTile);
+            else
+            {
+                PerformMove();
+                PerformAction(newGridTile);
+                MoveToNewTile(_gridTile, newGridTile);
+            }
             
             _moveTimer = 0f;
         }
+    }
+
+    private void MoveToNewTile(GridTile currentTile, GridTile newGridTile)
+    {
+        Grid.Instance.RemoveGridObjectFromTile(currentTile);
+        Grid.Instance.SetObjectToTile(this, newGridTile);
     }
 
     private void PerformMove()
@@ -109,6 +120,8 @@ public class Player : GridObject, IMoveable
 
     private void PerformAction(GridTile gridTile)
     {
+        if (!gridTile.HasObject()) return;
+        
         switch (gridTile.GridObject.Type)
         {
             case eGridObjectType.Food:

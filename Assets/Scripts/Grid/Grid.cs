@@ -6,6 +6,7 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
    [SerializeField] private GameObject TileMap;
+   [SerializeField] private List<GameObject> tileMaps;
    private List<GridTile> tiles = new List<GridTile>();
 
    private static Grid instance;
@@ -22,14 +23,17 @@ public class Grid : MonoBehaviour
       {
          Destroy(gameObject);
       }
-      
-      foreach (var tileObj in TileMap.GetComponentsInChildren<GridTile>())
+
+      foreach (var tileMap in tileMaps)
       {
-         tiles.Add(tileObj);
+         foreach (var tileObj in tileMap.GetComponentsInChildren<GridTile>())
+         {
+            tiles.Add(tileObj);
+         }
       }
    }
 
-   public void SetGridObjectToTile(GridObject gridObject, GridTile gridTile)
+   public void SetObjectToTile(GridObject gridObject, GridTile gridTile)
    {
       gridTile.SetGridObject(gridObject);
       gridObject.SetGridTile(gridTile);

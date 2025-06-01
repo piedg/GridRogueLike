@@ -5,7 +5,7 @@ public enum eGridType
 {
     Ground,
     Wall,
-    Door
+    Teleport
 }
 
 public class GridTile : MonoBehaviour
@@ -39,5 +39,15 @@ public class GridTile : MonoBehaviour
     public bool HasObject()
     {
         return _gridObject != null;
+    }
+
+    public bool IsTeleport()
+    {
+        return _type == eGridType.Teleport;
+    }
+
+    public bool IsWall()
+    {
+        return _type == eGridType.Wall;
     }
 }
