@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : GridObject, IMoveable
@@ -26,13 +24,13 @@ public class Player : GridObject, IMoveable
     private void Update()
     {
         _moveTimer += Time.deltaTime;
-        UpdatePosition();
-
         if (_health.IsDead())
         {
             Die();
             return;
         }
+        
+        UpdatePosition();
 
         if (_moveTimer >= actionDelay)
         {
@@ -66,6 +64,7 @@ public class Player : GridObject, IMoveable
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
         if (CanMove(newGridTile))
         {
+            PerformMove();
             if (newGridTile.IsTeleport())
             {
                 Teleport teleportTile = newGridTile as Teleport;
@@ -76,7 +75,6 @@ public class Player : GridObject, IMoveable
             }
             else
             {
-                PerformMove();
                 PerformAction(newGridTile);
                 MoveToNewTile(_gridTile, newGridTile);
             }

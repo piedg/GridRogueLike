@@ -9,7 +9,7 @@ public class TeleportDebugger : MonoBehaviour
     {
         if (tp.SpawnTile != null)
         {
-            Debug.DrawLine(gameObject.transform.position, (Vector2)tp.SpawnTile.Position, Color.cyan);
+            Debug.DrawLine(transform.position, tp.SpawnTile.transform.position, Color.cyan);
         }
     }
 #endif
