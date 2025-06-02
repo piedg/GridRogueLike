@@ -11155,6 +11155,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorKey
       objectReference: {fileID: 0}
+    - target: {fileID: 6480232904509424000, guid: f9cbbb694ee891e4b8fe6f7ab72ddfe7, type: 3}
+      propertyPath: door
+      value: 
+      objectReference: {fileID: 6769491556756371881}
     - target: {fileID: 7971753088612765218, guid: f9cbbb694ee891e4b8fe6f7ab72ddfe7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
