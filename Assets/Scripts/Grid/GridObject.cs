@@ -7,7 +7,8 @@ public enum eGridObjectType
     Player,
     Enemy,
     Food,
-    Heal
+    Heal,
+    Key
 }
 
 public class GridObject : MonoBehaviour
@@ -27,6 +28,7 @@ public class GridObject : MonoBehaviour
         if (newGridTile == null) return false;
         if (newGridTile == _gridTile) return false;
         if (newGridTile.Type == eGridType.Wall) { Debug.Log("Wall"); return false; }
+        if (newGridTile.IsDoorClosed()) { Debug.Log("Door closed"); return false; }
 
         return true;
     }

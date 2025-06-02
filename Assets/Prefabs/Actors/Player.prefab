@@ -100,3 +100,5 @@ MonoBehaviour:
   _type: 1
   moveSpeed: 10
   actionDelay: 0.25
+  startingHealth: 50
+  startingHungry: 10

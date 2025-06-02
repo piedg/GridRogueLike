@@ -4,6 +4,10 @@ public class Player : GridObject, IMoveable
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] float actionDelay = 0.25f;
+
+    [Header("Stats")]
+    [SerializeField] private int startingHealth;
+    [SerializeField] private int startingHungry;
     
     private Stat _health;
     private Stat _hungry;
@@ -12,8 +16,8 @@ public class Player : GridObject, IMoveable
 
     private void Awake()
     {
-        _health = new Stat(5, eStatType.Health);
-        _hungry = new Stat(5, eStatType.Hungry);
+        _health = new Stat(startingHealth, eStatType.Health);
+        _hungry = new Stat(startingHungry, eStatType.Hungry);
     }
 
     private void Start()
@@ -100,6 +104,38 @@ public class Player : GridObject, IMoveable
             _hungry.RemoveValue(1);
         }
     }
+    
+    private void PerformAction(GridTile newGridTile)
+    {
+        if (!newGridTile.HasObject()) return;
+        
+        switch (newGridTile.GridObject.Type)
+        {
+            case eGridObjectType.Food:
+                Food foodObj = newGridTile.GridObject.GetComponent<IConsumable>() as Food;
+                if (foodObj != null)
+                {
+                    foodObj.Use(this);
+                }
+                break;
+            case eGridObjectType.Heal:
+                Heal healObj = newGridTile.GridObject.GetComponent<IConsumable>() as Heal;
+                if (healObj != null)
+                {
+                    healObj.Use(this);
+                }
+                break;
+            case eGridObjectType.Key:
+            {
+                DoorKey doorKey = newGridTile.GridObject.GetComponent<IConsumable>() as DoorKey;
+                if (doorKey != null)
+                {
+                    doorKey.Use(this);
+                }
+                break;
+            }
+        }
+    }
 
     public Stat GetHungryStat()
     {
@@ -114,29 +150,6 @@ public class Player : GridObject, IMoveable
     public void UpdatePosition()
     {
         transform.position = Vector2.Lerp(transform.position, _gridTile.Position, Time.deltaTime * moveSpeed);
-    }
-
-    private void PerformAction(GridTile gridTile)
-    {
-        if (!gridTile.HasObject()) return;
-        
-        switch (gridTile.GridObject.Type)
-        {
-            case eGridObjectType.Food:
-                Food foodObj = gridTile.GridObject.GetComponent<IConsumable>() as Food;
-                if (foodObj != null)
-                {
-                    foodObj.Use(this);
-                }
-                break;
-            case eGridObjectType.Heal:
-                Heal healObj = gridTile.GridObject.GetComponent<IConsumable>() as Heal;
-                if (healObj != null)
-                {
-                    healObj.Use(this);
-                }
-                break;
-        }
     }
 
     private void Die()

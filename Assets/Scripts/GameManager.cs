@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2Int playerStartPos;
     private Player _player;
 
+    [SerializeField] private UIManager uiManager;
+
     public static GameManager Instance;
 
     private void Awake()
@@ -48,6 +50,11 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<CameraController>().MoveToRoom(spawnTile.GetComponentInParent<Transform>());
     }
 
+    public void TryEscape(bool isDoorOpen)
+    {
+        uiManager.UpdateWinPanel(isDoorOpen);
+    }
+    
     public int GetPlayerHealth()
     {
         if (_player == null) return 0;
