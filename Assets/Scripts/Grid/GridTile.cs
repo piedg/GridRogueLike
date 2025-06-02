@@ -48,7 +48,6 @@ public class GridTile : MonoBehaviour
 
     public bool IsDoorClosed()
     {        
-
         Door door = this as Door;
         if (door != null)
         {
