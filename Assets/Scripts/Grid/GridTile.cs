@@ -46,6 +46,17 @@ public class GridTile : MonoBehaviour
         return _type == eGridType.Teleport;
     }
 
+    public bool IsDoorClosed()
+    {        
+        Door door = this as Door;
+        if (door != null)
+        {
+            GameManager.Instance.TryEscape(door.IsOpen);
+            return !door.IsOpen;
+        }
+        return false;
+    }
+
     public bool IsWall()
     {
         return _type == eGridType.Wall;

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +6,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player playerPrefab;
     [SerializeField] private Vector2Int playerStartPos;
     private Player _player;
+
+    [SerializeField] private UIManager uiManager;
 
     public static GameManager Instance;
 
@@ -48,6 +49,11 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<CameraController>().MoveToRoom(spawnTile.GetComponentInParent<Transform>());
     }
 
+    public void TryEscape(bool isDoorOpen)
+    {
+        uiManager.UpdateWinPanel(isDoorOpen);
+    }
+    
     public int GetPlayerHealth()
     {
         if (_player == null) return 0;

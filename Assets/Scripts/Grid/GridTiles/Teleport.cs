@@ -6,7 +6,7 @@ public class Teleport : GridTile
     [SerializeField] private Transform roomCenter;
     public GridTile SpawnTile => spawnTile;
 
-    public void Use(Player player)
+    public virtual void Use(Player player)
     {
         Camera.main.GetComponent<CameraController>().MoveToRoom(roomCenter);
         player.SetGridTile(spawnTile);
