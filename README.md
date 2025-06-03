@@ -15,8 +15,8 @@ Room transitions.
 Win condition: find the Key and reach the Exit Door.
 
 ## Future Plans
-Procedural Generation: Implement algorithms to procedurally generate dungeons for endless replayability.
-Enemy AI: Introduce intelligent enemies with distinct behaviors and AI to challenge the player.
+Procedural Generation.
+Enemy.
 
 ## Screnshots
 ![cw4k55l5bd](https://github.com/user-attachments/assets/3c208340-e233-4791-ba09-b7291ebc0239)
