@@ -18,5 +18,9 @@ Win condition: find the Key and reach the Exit Door.
 Procedural Generation: Implement algorithms to procedurally generate dungeons for endless replayability.
 Enemy AI: Introduce intelligent enemies with distinct behaviors and AI to challenge the player.
 
+## Screnshots
+![cw4k55l5bd](https://github.com/user-attachments/assets/3c208340-e233-4791-ba09-b7291ebc0239)
+![bbrTtN5TmG](https://github.com/user-attachments/assets/d5ddc81f-3cd2-418b-8715-2456d7a557ee)
+
 ## Credits
 Placeholder assets: https://www.kenney.nl/
