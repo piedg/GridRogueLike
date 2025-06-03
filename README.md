@@ -4,7 +4,7 @@ A grid-based roguelike adventure where survival is the core!
 ## Gameplay Mechanics
 - Every step you take consumes 1 Hunger point. If your Hunger reaches 0, you'll start losing Health. If your Health drops to 0, it's game over.<br/>
 - Explore to find and collect vital Food to replenish your Hunger and Health packs to restore your well-being.<br/>
-- Dungeon Exploration: Discover interconnected rooms and move between them using Stairs. Each room presents new challenges and opportunities.<br/>
+- Discover rooms and move between them using the Stairs.<br/>
 - Your  goal is to locate the Key and unlock the Exit Door to escape and win the game!<br/>
 
 ## Current Features
