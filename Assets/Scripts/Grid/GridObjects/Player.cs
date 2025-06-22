@@ -5,10 +5,9 @@ public class Player : GridObject, IMoveable
     [SerializeField] private float moveSpeed;
     [SerializeField] float actionDelay = 0.25f;
 
-    [Header("Stats")]
-    [SerializeField] private int startingHealth;
+    [Header("Stats")] [SerializeField] private int startingHealth;
     [SerializeField] private int startingHungry;
-    
+
     private Stat _health;
     private Stat _hungry;
 
@@ -27,13 +26,18 @@ public class Player : GridObject, IMoveable
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         _moveTimer += Time.deltaTime;
         if (_health.IsDead())
         {
             Die();
             return;
         }
-        
+
         UpdatePosition();
 
         if (_moveTimer >= actionDelay)
@@ -65,6 +69,11 @@ public class Player : GridObject, IMoveable
             newX += 1;
         }
 
+        MoveToTile(newX, newY);
+    }
+
+    private void MoveToTile(int newX, int newY)
+    {
         GridTile newGridTile = Grid.Instance.GetTileAt(newX, newY);
         if (CanMove(newGridTile))
         {
@@ -80,17 +89,11 @@ public class Player : GridObject, IMoveable
             else
             {
                 PerformAction(newGridTile);
-                MoveToNewTile(_gridTile, newGridTile);
+                Grid.Instance.UpdateObjectInGrid(this, _gridTile, newGridTile);
             }
-            
+
             _moveTimer = 0f;
         }
-    }
-
-    private void MoveToNewTile(GridTile currentTile, GridTile newGridTile)
-    {
-        Grid.Instance.RemoveGridObjectFromTile(currentTile);
-        Grid.Instance.SetObjectToTile(this, newGridTile);
     }
 
     private void PerformMove()
@@ -104,11 +107,11 @@ public class Player : GridObject, IMoveable
             _hungry.RemoveValue(1);
         }
     }
-    
+
     private void PerformAction(GridTile newGridTile)
     {
         if (!newGridTile.HasObject()) return;
-        
+
         switch (newGridTile.GridObject.Type)
         {
             case eGridObjectType.Food:
@@ -117,6 +120,7 @@ public class Player : GridObject, IMoveable
                 {
                     foodObj.Use(this);
                 }
+
                 break;
             case eGridObjectType.Heal:
                 Heal healObj = newGridTile.GridObject.GetComponent<IConsumable>() as Heal;
@@ -124,6 +128,7 @@ public class Player : GridObject, IMoveable
                 {
                     healObj.Use(this);
                 }
+
                 break;
             case eGridObjectType.Key:
             {
@@ -132,6 +137,7 @@ public class Player : GridObject, IMoveable
                 {
                     doorKey.Use(this);
                 }
+
                 break;
             }
         }
@@ -141,7 +147,7 @@ public class Player : GridObject, IMoveable
     {
         return _hungry;
     }
-    
+
     public Stat GetHealthStat()
     {
         return _health;

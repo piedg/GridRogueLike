@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(0);
+            Time.timeScale = 1;
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     public void TryEscape(bool isDoorOpen)
     {
+        Time.timeScale = 0;
         uiManager.UpdateWinPanel(isDoorOpen);
     }
     

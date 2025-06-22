@@ -2,16 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
-{ 
+{
     [SerializeField] Text hungryText;
     [SerializeField] Text healthText;
     [SerializeField] Text statusText;
-    
+
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] GameObject winPanel;
     [SerializeField] private Text winPanelText;
     [SerializeField] private Text winPanelSecondaryText;
-    
+
     private void Start()
     {
         gameOverPanel.SetActive(false);
@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Time.timeScale = 1;
             CloseWinPanel();
         }
     }
@@ -40,7 +41,7 @@ public class UIManager : MonoBehaviour
             gameOverPanel.SetActive(true);
         }
     }
-    
+
     private void UpdateStatsUI()
     {
         hungryText.text = $"Hungry: {GameManager.Instance.GetPlayerHungry()}";
@@ -68,6 +69,7 @@ public class UIManager : MonoBehaviour
             winPanelText.text = "YOU NEED A KEY";
             winPanelSecondaryText.text = "PRESS <SPACE> TO CONTINUE";
         }
+
         winPanel.SetActive(true);
     }
 }
